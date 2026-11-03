@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#070b22">
+    <title>FootTickets — Billetterie football</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="topbar">
+            <a class="brand" href="index.html" aria-label="FootTickets, accueil">
+                <img class="brand-logo" src="images/logo-transparent.png" alt="">
+                <span>Foot<span class="brand-accent">Tickets</span></span>
+            </a>
+
+            <form class="search-form" role="search" action="matchs.html" method="get">
+                <label class="sr-only" for="match-search">Rechercher un match, une équipe ou un stade</label>
+                <span class="search-icon" aria-hidden="true">⌕</span>
+                <input id="match-search" type="search" name="q" placeholder="Rechercher un match, une équipe ou un stade…">
+                <button type="submit">Rechercher</button>
+            </form>
+
+            <div class="account-links">
+                <a class="sign-in" href="login.html"><svg class="login-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>Connexion</a>
+                <a class="register-link" href="register.html">Créer un compte</a>
+            </div>
+        </div>
+
+        <nav class="main-nav" aria-label="Navigation principale">
+            <div class="nav-inner">
+                <a class="nav-link active" href="index.html">Accueil</a>
+                <a class="nav-link" href="matchs.html">Tous les matchs</a>
+                <a class="nav-link" href="matchs.html?category=all">Catégories</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="page-content">
+        <div class="hero-layout">
+            <section class="welcome-section">
+                <p class="eyebrow">La passion se vit au stade</p>
+                <h1>Vivez le match<br><span>au plus près.</span></h1>
+                <p class="welcome-copy">Trouvez vos places pour les plus grandes rencontres de football.</p>
+            </section>
+            <section class="image-slider" aria-label="Galerie de football">
+                <div class="slider-track">
+                    <img class="slide active" src="images/cr7.webp" alt="Cristiano Ronaldo sur le terrain">
+                    <img class="slide" src="images/db.webp" alt="Action de football en match">
+                    <img class="slide" src="images/imag.webp" alt="Ambiance de football au stade">
+                    <img class="slide" src="images/image.webp" alt="Moment fort d’un match de football">
+                    <img class="slide" src="images/image1.jpg" alt="Terrain de football et joueurs">
+                    <img class="slide" src="images/image3.webp" alt="Supporters et football">
+                    <img class="slide" src="images/image6.webp" alt="Match de football en direct">
+                    <img class="slide" src="images/images2.webp" alt="Rencontre de football au stade">
+                    <img class="slide" src="images/wac.webp" alt="Équipe du Wydad Athletic Club">
+                </div>
+                <div class="slider-indicators" aria-hidden="true"></div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-main">
+            <div class="footer-brand-column">
+                <a class="brand footer-brand" href="index.html" aria-label="FootTickets, accueil">
+                    <img class="brand-logo" src="images/logo-transparent.png" alt="">
+                    <span>Foot<span class="brand-accent">Tickets</span></span>
+                </a>
+                <p>La passion du football, au plus près de l’action. Réservez vos places pour les plus grandes rencontres.</p>
+            </div>
+            <div class="footer-column">
+                <h2>Navigation</h2>
+                <a href="index.html">Accueil</a>
+                <a href="matchs.html">Tous les matchs</a>
+                <a href="matchs.html?category=all">Catégories</a>
+            </div>
+            <div class="footer-column">
+                <h2>Mon compte</h2>
+                <a href="login.html">Connexion</a>
+                <a href="register.html">Créer un compte</a>
+                <a href="mes-billets.html">Mes billets</a>
+            </div>
+            <div class="footer-column footer-contact">
+                <h2>Besoin d’aide ?</h2>
+                <p>Notre équipe est là pour vous accompagner dans vos réservations.</p>
+                <a href="mailto:contact@foottickets.ma">contact@foottickets.ma</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 FootTickets. Tous droits réservés.</span>
+            <div><a href="#">Confidentialité</a><a href="#">Conditions générales</a></div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
