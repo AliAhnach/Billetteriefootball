@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#070b22">
+    <title>Catégories — FootTickets</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/categorie.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="topbar">
+            <a class="brand" href="index.html" aria-label="FootTickets, accueil">
+                <img class="brand-logo" src="images/logo-transparent.png" alt="">
+                <span>Foot<span class="brand-accent">Tickets</span></span>
+            </a>
+
+            <form class="search-form" role="search" action="matchs.html" method="get">
+                <label class="sr-only" for="match-search">Rechercher un match, une équipe ou un stade</label>
+                <span class="search-icon" aria-hidden="true">⌕</span>
+                <input id="match-search" type="search" name="q" placeholder="Rechercher un match, une équipe ou un stade…">
+                <button type="submit">Rechercher</button>
+            </form>
+
+            <div class="account-links">
+                <a class="sign-in" href="login.html"><svg class="login-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>Connexion</a>
+                <a class="register-link" href="register.html">Créer un compte</a>
+            </div>
+        </div>
+
+        <nav class="main-nav" aria-label="Navigation principale">
+            <div class="nav-inner">
+                <a class="nav-link" href="index.html">Accueil</a>
+                <a class="nav-link" href="matchs.html">Tous les matchs</a>
+                <a class="nav-link active" href="categories.html" aria-current="page">Catégories</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="category-section category-page">
+        <div class="category-content">
+            <p class="eyebrow">La plus grande scène européenne</p>
+            <h1 class="category-title">Champions League</h1>
+            <div class="category-grid">
+                <a class="category-card" href="#category-matches" data-league-id="2" data-league-name="Ligue des champions">
+                    <img src="images/logo-categories/champions%20league.jfif" alt="Logo de la Ligue des champions">
+                    <h2>Ligue des champions</h2>
+                </a>
+            </div>
+
+            <section id="category-matches" class="category-matches" aria-live="polite" hidden>
+                <h2 class="category-matches-title">Matchs <span id="category-matches-name"></span></h2>
+                <div id="category-matches-status" class="category-matches-status"></div>
+                <div id="category-matches-list" class="match-list"></div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-main">
+            <div class="footer-brand-column">
+                <a class="brand footer-brand" href="index.html" aria-label="FootTickets, accueil">
+                    <img class="brand-logo" src="images/logo-transparent.png" alt="">
+                    <span>Foot<span class="brand-accent">Tickets</span></span>
+                </a>
+                <p>La passion du football, au plus près de l’action. Réservez vos places pour les plus grandes rencontres.</p>
+            </div>
+            <div class="footer-column">
+                <h2>Navigation</h2>
+                <a href="index.html">Accueil</a>
+                <a href="matchs.html">Tous les matchs</a>
+                <a href="categories.html">Catégories</a>
+            </div>
+            <div class="footer-column">
+                <h2>Mon compte</h2>
+                <a href="login.html">Connexion</a>
+                <a href="register.html">Créer un compte</a>
+                <a href="mes-billets.html">Mes billets</a>
+            </div>
+            <div class="footer-column footer-contact">
+                <h2>Besoin d’aide ?</h2>
+                <p>Notre équipe est là pour vous accompagner dans vos réservations.</p>
+                <a href="mailto:contact@foottickets.ma">contact@foottickets.ma</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 FootTickets. Tous droits réservés.</span>
+            <div><a href="#">Confidentialité</a><a href="#">Conditions générales</a></div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/categories.js"></script>
+</body>
+</html>
