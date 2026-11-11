@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#070b22">
+    <title>Mon panier — FootTickets</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="checkout-page" data-checkout-step="cart">
+    <header class="reservation-header">
+        <a class="brand" href="index.html" aria-label="FootTickets, accueil"><img class="brand-logo" src="images/logo-transparent.png" alt=""><span>Foot<span class="brand-accent">Tickets</span></span></a>
+        <a class="reservation-back" href="categories.html">← Retour aux matchs</a>
+    </header>
+    <main class="checkout-main">
+        <section class="checkout-card">
+            <p class="eyebrow">Votre sélection</p>
+            <h1>Mon panier</h1>
+            <div class="checkout-match">
+                <p class="checkout-competition">Ligue des champions</p>
+                <div class="checkout-teams">
+                    <span class="checkout-team"><img data-field="homeLogo" alt=""><strong data-field="home"></strong></span>
+                    <span class="checkout-versus">VS</span>
+                    <span class="checkout-team"><img data-field="awayLogo" alt=""><strong data-field="away"></strong></span>
+                </div>
+                <div class="checkout-details">
+                    <p><span>Date et heure</span><strong data-field="datetime"></strong></p>
+                    <p><span>Stade</span><strong data-field="venue"></strong></p>
+                    <p><span>Ville</span><strong data-field="city"></strong></p>
+                </div>
+            </div>
+            <div class="checkout-ticket">
+                <span><strong data-field="category"></strong><small data-field="quantity"></small></span>
+                <span class="checkout-ticket-icon" aria-hidden="true">✓</span>
+            </div>
+            <a class="reservation-submit checkout-action" href="paiement.html">Continuer vers le paiement <span aria-hidden="true">→</span></a>
+        </section>
+    </main>
+    <script src="js/checkout.js"></script>
+</body>
+</html>

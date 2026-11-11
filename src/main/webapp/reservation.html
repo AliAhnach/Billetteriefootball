@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#070b22">
+    <title>Réserver une place — FootTickets</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="reservation-page">
+    <header class="reservation-header">
+        <a class="brand" href="index.html" aria-label="FootTickets, accueil"><img class="brand-logo" src="images/logo-transparent.png" alt=""><span>Foot<span class="brand-accent">Tickets</span></span></a>
+        <a class="reservation-back" href="categories.html">← Retour aux matchs</a>
+    </header>
+    <main class="reservation-main">
+        <section class="reservation-card">
+            <p class="eyebrow">Ligue des champions</p>
+            <h1>Réserver une place</h1>
+            <div class="reservation-match">
+                <div class="reservation-teams">
+                    <span class="reservation-team"><img id="reservation-home-logo" alt=""><strong id="reservation-home">Équipe à confirmer</strong></span>
+                    <span class="reservation-versus">VS</span>
+                    <span class="reservation-team"><img id="reservation-away-logo" alt=""><strong id="reservation-away">Équipe à confirmer</strong></span>
+                </div>
+                <p class="reservation-details" id="reservation-details"></p>
+            </div>
+            <form id="reservation-form" class="reservation-form">
+                <label for="ticket-category">Catégorie de place</label>
+                <select id="ticket-category" name="category" required>
+                    <option value="Tribune latérale">Tribune latérale</option>
+                    <option value="Tribune centrale">Tribune centrale</option>
+                    <option value="Tribune premium">Tribune premium</option>
+                </select>
+                <label for="ticket-quantity">Nombre de places</label>
+                <select id="ticket-quantity" name="quantity" required>
+                    <option value="1">1 place</option>
+                    <option value="2">2 places</option>
+                    <option value="3">3 places</option>
+                    <option value="4">4 places</option>
+                    <option value="5">5 places</option>
+                    <option value="6">6 places</option>
+                </select>
+                <button type="submit" class="reservation-submit">Préparer ma réservation</button>
+            </form>
+        </section>
+    </main>
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const home = params.get("home") || "Équipe à confirmer";
+            const away = params.get("away") || "Équipe à confirmer";
+            const match = {
+                event: params.get("event") || "",
+                home,
+                away,
+                homeLogo: params.get("homeLogo") || "",
+                awayLogo: params.get("awayLogo") || "",
+                date: params.get("date") || "Date à confirmer",
+                time: params.get("time") || "Heure à confirmer",
+                venue: params.get("venue") || "Stade à confirmer",
+                city: params.get("city") || ""
+            };
+            document.getElementById("reservation-home").textContent = home;
+            document.getElementById("reservation-away").textContent = away;
+            [["reservation-home-logo", match.homeLogo], ["reservation-away-logo", match.awayLogo]].forEach(([id, url]) => {
+                if (!/^https:\/\//i.test(url)) return;
+                const logo = document.getElementById(id);
+                logo.src = url;
+                logo.alt = "Logo " + (id.includes("home") ? home : away);
+                logo.closest(".reservation-team").classList.add("has-logo");
+            });
+            document.getElementById("reservation-details").textContent = [match.date + " · " + match.time, match.venue, match.city].filter(Boolean).join(" · ");
+
+            document.getElementById("reservation-form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                // L'étape de réservation s'arrête ici : aucune confirmation ni navigation.
+            });
+        })();
+    </script>
+</body>
+</html>
