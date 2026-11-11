@@ -7,7 +7,7 @@
     }
 
     if (!reservation) {
-        window.location.replace("categories.html");
+        window.location.replace("tous-les-matchs.html");
         return;
     }
 
