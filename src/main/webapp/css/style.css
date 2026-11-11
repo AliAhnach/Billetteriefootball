@@ -203,7 +203,6 @@ h1 span { color: var(--lime); }
 .feature-card-image { display: block; width: calc(100% + 44px); height: 150px; margin: -25px -22px 20px; object-fit: cover; transition: transform .55s cubic-bezier(.2,.7,.2,1), filter .35s ease; }
 .feature-card:hover .feature-card-image { transform: scale(1.045); filter: saturate(1.08); }
 .feature-card:hover { transform: translateY(-4px); border-color: rgba(216,255,0,.35); background: linear-gradient(145deg, rgba(31,36,73,.95), rgba(13,16,38,.98)); }
-.feature-number { position: absolute; top: 20px; right: 21px; color: rgba(255,255,255,.3); font-size: 12px; font-weight: 800; letter-spacing: 1px; }
 .feature-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 10px; background: rgba(216,255,0,.1); color: var(--lime); }
 .feature-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .feature-card h3 { margin: 21px 0 9px; color: #fff; font-size: 17px; letter-spacing: -.2px; }
