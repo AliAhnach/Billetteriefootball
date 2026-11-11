@@ -10,52 +10,6 @@ document.querySelectorAll(".password-toggle").forEach((button) => {
     });
 });
 
-const stadiumPanorama = document.querySelector("[data-stadium-panorama]");
-
-if (stadiumPanorama) {
-    const track = stadiumPanorama.querySelector("[data-stadium-track]");
-    const slides = Array.from(track.children);
-    const dotsContainer = stadiumPanorama.querySelector("[data-stadium-dots]");
-    const counter = stadiumPanorama.querySelector("[data-stadium-counter]");
-    const previousButton = stadiumPanorama.querySelector("[data-stadium-previous]");
-    const nextButton = stadiumPanorama.querySelector("[data-stadium-next]");
-    let currentSlide = 0;
-
-    const dots = slides.map((slide, index) => {
-        const dot = document.createElement("button");
-        dot.className = "stadium-dot";
-        dot.type = "button";
-        dot.setAttribute("aria-label", `Afficher la vue ${index + 1} du stade`);
-        dot.addEventListener("click", () => showStadiumSlide(index));
-        dotsContainer.appendChild(dot);
-        return dot;
-    });
-
-    function showStadiumSlide(index) {
-        currentSlide = (index + slides.length) % slides.length;
-        track.style.transform = `translateX(-${currentSlide * 100}%)`;
-        slides.forEach((slide, slideIndex) => {
-            const active = slideIndex === currentSlide;
-            slide.setAttribute("aria-hidden", String(!active));
-            slide.inert = !active;
-            dots[slideIndex].setAttribute("aria-current", String(active));
-        });
-        counter.textContent = `${String(currentSlide + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
-    }
-
-    previousButton.addEventListener("click", () => showStadiumSlide(currentSlide - 1));
-    nextButton.addEventListener("click", () => showStadiumSlide(currentSlide + 1));
-    showStadiumSlide(0);
-
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        window.setInterval(() => {
-            if (!stadiumPanorama.matches(":hover") && !stadiumPanorama.matches(":focus-within") && !document.hidden) {
-                showStadiumSlide(currentSlide + 1);
-            }
-        }, 5000);
-    }
-}
-
 const competitionCarousel = document.querySelector("[data-competition-carousel]");
 
 if (competitionCarousel) {
