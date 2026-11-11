@@ -145,6 +145,8 @@ h1 span { color: var(--lime); }
 .platform-heading > p:last-child { margin: 14px 0 0; color: var(--muted); font-size: 15px; line-height: 1.65; }
 .feature-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 .feature-card { position: relative; min-height: 250px; padding: 25px 22px 22px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; background: linear-gradient(145deg, rgba(25,29,61,.88), rgba(13,16,38,.94)); transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+.feature-card-image { display: block; width: calc(100% + 44px); height: 150px; margin: -25px -22px 20px; object-fit: cover; transition: transform .55s cubic-bezier(.2,.7,.2,1), filter .35s ease; }
+.feature-card:hover .feature-card-image { transform: scale(1.045); filter: saturate(1.08); }
 .feature-card:hover { transform: translateY(-4px); border-color: rgba(216,255,0,.35); background: linear-gradient(145deg, rgba(31,36,73,.95), rgba(13,16,38,.98)); }
 .feature-number { position: absolute; top: 20px; right: 21px; color: rgba(255,255,255,.3); font-size: 12px; font-weight: 800; letter-spacing: 1px; }
 .feature-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 10px; background: rgba(216,255,0,.1); color: var(--lime); }
@@ -322,6 +324,7 @@ h1 span { color: var(--lime); }
     .platform-section { margin-top: 66px; }
     .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .feature-card { min-height: 240px; padding: 21px 18px; }
+    .feature-card-image { width: calc(100% + 36px); margin: -21px -18px 18px; }
     .competition-section { margin-top: 68px; }
     .competition-heading { align-items: flex-start; flex-direction: column; gap: 16px; }
     .competition-carousel { padding: 0 36px; }

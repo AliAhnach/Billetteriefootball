@@ -63,40 +63,38 @@
             </div>
         </section>
 
-        <section class="upcoming-match" aria-labelledby="today-matches-title" data-today-matches>
-            <div class="match-card-header">
-                <div>
-                    <p class="eyebrow">Panorama du jour</p>
-                    <h2 id="today-matches-title">Matchs d’aujourd’hui</h2>
-                </div>
-                <span class="match-live-label" data-match-counter hidden></span>
+        <section class="platform-section" aria-labelledby="platform-definition-title">
+            <div class="platform-heading">
+                <p class="eyebrow">Notre plateforme</p>
+                <h2 id="platform-definition-title">FootTickets, votre billetterie football en ligne</h2>
+                <p>FootTickets est une plateforme dédiée à la réservation de billets pour les matchs de football. Elle rassemble au même endroit les rencontres proposées, les informations utiles pour préparer votre sortie et le suivi de vos réservations.</p>
             </div>
-            <p class="match-status" data-today-status data-state="loading" role="status" aria-live="polite">Chargement des matchs du jour…</p>
-            <div class="match-details" data-today-details hidden>
-                <p class="match-competition" data-match-competition></p>
-                <div class="match-teams">
-                    <div class="match-team">
-                        <span class="team-badge" data-home-badge aria-hidden="true"><span data-home-initials></span><img data-home-logo alt="" hidden></span>
-                        <span class="team-name" data-home-name></span>
-                    </div>
-                    <span class="match-versus" aria-label="contre">VS</span>
-                    <div class="match-team">
-                        <span class="team-badge" data-away-badge aria-hidden="true"><span data-away-initials></span><img data-away-logo alt="" hidden></span>
-                        <span class="team-name" data-away-name></span>
-                    </div>
-                </div>
-                <div class="match-schedule">
-                    <p><span class="schedule-label">Date</span><span data-match-date></span></p>
-                    <p><span class="schedule-label">Heure</span><span data-match-time></span></p>
-                    <p><span class="schedule-label">Lieu</span><span data-match-venue></span></p>
-                    <p><span class="schedule-label">Billets disponibles</span><span data-ticket-count>À confirmer</span></p>
-                    <p><span class="schedule-label">Prix du billet</span><span data-ticket-price>À confirmer</span></p>
-                </div>
-                <p class="ticket-data-note">Le stock et le tarif seront confirmés par la billetterie.</p>
-                <a class="match-card-link" data-buy-ticket href="reservation.html">Acheter un billet <span aria-hidden="true">→</span></a>
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <img class="feature-card-image" src="images/picturesCartes/catre1.jpeg" alt="Supporters réunis dans un stade de football" loading="lazy">
+                    <span class="feature-number">01</span>
+                    <h3>Pour les supporters</h3>
+                    <p>Recherchez une rencontre, consultez ses détails et choisissez le nombre de places souhaité.</p>
+                </article>
+                <article class="feature-card">
+                    <img class="feature-card-image" src="images/picturesCartes/carte2.jpeg" alt="Réservation de billets de football depuis un téléphone" loading="lazy">
+                    <span class="feature-number">02</span>
+                    <h3>Un parcours centralisé</h3>
+                    <p>Préparez votre réservation, retrouvez son récapitulatif et accédez aux étapes de paiement.</p>
+                </article>
+                <article class="feature-card">
+                    <img class="feature-card-image" src="images/picturesCartes/carte3.jpeg" alt="Supporter consultant ses billets de match" loading="lazy">
+                    <span class="feature-number">03</span>
+                    <h3>Un espace personnel</h3>
+                    <p>Créez un compte pour consulter vos réservations et retrouver vos billets depuis votre espace.</p>
+                </article>
+                <article class="feature-card">
+                    <img class="feature-card-image" src="images/picturesCartes/carte4.jpeg" alt="Gestion des matchs et réservations sur ordinateur" loading="lazy">
+                    <span class="feature-number">04</span>
+                    <h3>Pour l’organisation</h3>
+                    <p>Les pages d’administration permettent de gérer les matchs, les équipes, les stades et les utilisateurs.</p>
+                </article>
             </div>
-            <button class="match-retry" type="button" data-today-retry hidden>Réessayer</button>
-            <p class="match-attribution">Données sportives fournies par <a href="https://www.api-football.com/" target="_blank" rel="noopener noreferrer">API-Football</a></p>
         </section>
 
         <section class="platform-section" aria-labelledby="platform-title">
@@ -137,59 +135,6 @@
             </div>
         </section>
 
-        <section class="competition-section" aria-labelledby="competition-title">
-            <div class="competition-heading">
-                <div>
-                    <p class="eyebrow">À explorer</p>
-                    <h2 id="competition-title">Le football, dans toutes ses couleurs</h2>
-                    <p>Choisissez une compétition et repérez les prochaines affiches à vivre au stade.</p>
-                </div>
-                <a class="competition-all" href="matchs.html">Tous les matchs <span aria-hidden="true">→</span></a>
-            </div>
-            <div class="competition-carousel" data-competition-carousel aria-label="Panorama des compétitions">
-                <button class="competition-control competition-previous" type="button" data-carousel-previous aria-label="Carte précédente">‹</button>
-                <div class="competition-viewport">
-                    <div class="competition-track" data-carousel-track>
-                        <a class="competition-card competition-botola" href="matchs.html?category=botola">
-                            <img class="competition-image" src="images/assetsForindex/botola.jpg" alt="" aria-hidden="true">
-                            <span class="competition-index">01 / MAROC</span>
-                            <span class="competition-mark" aria-hidden="true">M</span>
-                            <span class="competition-card-title">Championnat national</span>
-                            <span class="competition-card-subtitle">Les clubs et rivalités du Maroc</span>
-                            <span class="competition-arrow" aria-hidden="true">↗</span>
-                        </a>
-                        <a class="competition-card competition-africa" href="matchs.html?category=africa">
-                            <span class="competition-index">02 / AFRIQUE</span>
-                            <span class="competition-mark" aria-hidden="true">A</span>
-                            <span class="competition-card-title">Scène africaine</span>
-                            <span class="competition-card-subtitle">Les grands rendez-vous continentaux</span>
-                            <span class="competition-arrow" aria-hidden="true">↗</span>
-                        </a>
-                        <a class="competition-card competition-national" href="matchs.html?category=national-team">
-                            <img class="competition-image" src="images/assetsForindex/maroc.jpeg" alt="" aria-hidden="true">
-                            <span class="competition-index">03 / SÉLECTIONS</span>
-                            <span class="competition-mark" aria-hidden="true">11</span>
-                            <span class="competition-card-title">Équipe nationale</span>
-                            <span class="competition-card-subtitle">Vibrez avec les Lions de l’Atlas</span>
-                            <span class="competition-arrow" aria-hidden="true">↗</span>
-                        </a>
-                        <a class="competition-card competition-world" href="matchs.html?category=international">
-                            <img class="competition-image" src="images/assetsForindex/messi_ronaldo.jpeg" alt="" aria-hidden="true">
-                            <span class="competition-index">04 / INTERNATIONAL</span>
-                            <span class="competition-mark" aria-hidden="true">⚽</span>
-                            <span class="competition-card-title">Grandes affiches</span>
-                            <span class="competition-card-subtitle">Les rencontres qui font l’événement</span>
-                            <span class="competition-arrow" aria-hidden="true">↗</span>
-                        </a>
-                    </div>
-                </div>
-                <button class="competition-control competition-next" type="button" data-carousel-next aria-label="Carte suivante">›</button>
-                <div class="competition-carousel-footer">
-                    <div class="competition-dots" data-carousel-dots aria-label="Choisir une carte"></div>
-                    <span class="competition-counter" data-carousel-counter aria-live="polite">01 / 04</span>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer class="site-footer">
