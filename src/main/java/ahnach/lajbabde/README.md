@@ -5,4 +5,4 @@
 - `service` contient les services métier construits autour des DAO.
 - `servlet` contient les contrôleurs HTTP Jakarta Servlet.
 
-Les pages, styles, scripts et images existants restent dans `src/main/webapp`.
+Le frontend a été retiré. `src/main/webapp` ne contient que la configuration Servlet; les contrôleurs sont destinés à être appelés par un client frontend externe.

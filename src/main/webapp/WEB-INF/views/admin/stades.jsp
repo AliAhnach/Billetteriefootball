@@ -1,1 +1,0 @@
-<%@ page contentType="text/html;charset=UTF-8" %><!doctype html><html lang="fr"><head><meta charset="UTF-8"><title>Administration — Stades</title></head><body><h1>Gestion des stades</h1></body></html>

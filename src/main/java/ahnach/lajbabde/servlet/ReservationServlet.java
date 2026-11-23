@@ -1,7 +1,6 @@
 package ahnach.lajbabde.servlet;
 
 import ahnach.lajbabde.service.ReservationService;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +11,7 @@ import java.io.IOException;
 public class ReservationServlet extends HttpServlet {
     private ReservationService service;
     @Override public void init() { service = (ReservationService) getServletContext().getAttribute("reservationService"); }
-    @Override protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    @Override protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (service == null) { resp.sendError(503, "Service de réservation indisponible"); return; }
         try {
             long clientId = Long.parseLong(String.valueOf(req.getSession().getAttribute("utilisateurId")));

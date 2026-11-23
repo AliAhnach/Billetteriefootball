@@ -1,7 +1,8 @@
 package ahnach.lajbabde.servlet;
 
 import ahnach.lajbabde.service.BilletService;
-import jakarta.servlet.ServletException;
+import ahnach.lajbabde.model.Billet;
+import java.util.List;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,10 +13,20 @@ import java.io.IOException;
 public class BilletServlet extends HttpServlet {
     private BilletService service;
     @Override public void init() { service = (BilletService) getServletContext().getAttribute("billetService"); }
-    @Override protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @Override protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (service == null) { resp.sendError(503, "Service des billets indisponible"); return; }
-        req.setAttribute("billets", service.billetsPourMatch(Long.parseLong(req.getParameter("matchId"))));
-        req.getRequestDispatcher("/WEB-INF/views/mesBillets.jsp").forward(req, resp);
+        try {
+            List<Billet> billets = service.billetsPourMatch(Long.parseLong(req.getParameter("matchId")));
+            resp.setContentType("application/json;charset=UTF-8");
+            resp.getWriter().print("[");
+            for (int i = 0; i < billets.size(); i++) {
+                Billet billet = billets.get(i);
+                if (i > 0) resp.getWriter().print(",");
+                resp.getWriter().printf("{\"id\":%d,\"matchId\":%d,\"categorie\":\"%s\",\"prix\":\"%s\",\"disponible\":%s}",
+                        billet.getId(), billet.getMatchId(), billet.getCategorie(), billet.getPrix(), billet.isDisponible());
+            }
+            resp.getWriter().print("]");
+        } catch (NumberFormatException e) { resp.sendError(400, "Identifiant de match invalide"); }
     }
     @Override protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.sendError(501, "Paiement non configuré");

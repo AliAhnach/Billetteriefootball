@@ -1,1 +1,0 @@
-<%@ page contentType="text/html;charset=UTF-8" %><!doctype html><html lang="fr"><head><meta charset="UTF-8"><title>Administration — Matchs</title></head><body><h1>Gestion des matchs</h1></body></html>
