@@ -4,7 +4,7 @@ import ahnach.lajbabde.model.Utilisateur;
 import java.util.Optional;
 
 /** Contrat d'accès aux comptes utilisateurs. */
-public interface UtilisateurDao {
+public interface UtilisateurDao extends IUtilisateurDao {
     Optional<Utilisateur> findByEmail(String email);
     Utilisateur save(Utilisateur utilisateur);
 }

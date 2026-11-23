@@ -1,9 +1,18 @@
 package ahnach.lajbabde.model;
 
 import java.math.BigDecimal;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /** Représente un billet disponible ou réservé. */
+@Entity
+@Table(name = "billet")
 public class Billet {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long matchId;
     private String categorie;

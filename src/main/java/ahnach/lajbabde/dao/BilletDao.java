@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 /** Contrat d'accès aux données des billets. */
-public interface BilletDao {
+public interface BilletDao extends IBilletDao {
     List<Billet> findByMatchId(long matchId);
     Optional<Billet> findById(long id);
     Billet save(Billet billet);

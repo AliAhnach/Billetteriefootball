@@ -1,9 +1,18 @@
 package ahnach.lajbabde.model;
 
 import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /** Représente un match proposé à la réservation. */
+@Entity
+@Table(name = "match")
 public class Match {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String equipeDomicile;
     private String equipeExterieure;

@@ -1,0 +1,36 @@
+package ahnach.lajbabde.service;
+
+import ahnach.lajbabde.dao.IReservationDao;
+import ahnach.lajbabde.dao.IPlaceDao;
+import ahnach.lajbabde.model.Place;
+import ahnach.lajbabde.model.Reservation;
+import java.time.LocalDate;
+import java.util.List;
+
+/** Règles de réservation et de libération des places. */
+public class ReservationService {
+    private final IReservationDao reservationDao;
+    private final IPlaceDao placeDao;
+
+    public ReservationService(IReservationDao reservationDao, IPlaceDao placeDao) {
+        this.reservationDao = reservationDao; this.placeDao = placeDao;
+    }
+
+    public List<Reservation> reservationsDuClient(long clientId) { return reservationDao.findByClientId(clientId); }
+
+    public Reservation reserver(long clientId, long matchId, long placeId) {
+        Place place = placeDao.findById(placeId).orElseThrow(() -> new IllegalArgumentException("Place introuvable"));
+        if (!place.isDisponible()) throw new IllegalStateException("Cette place n'est plus disponible");
+        place.setDisponible(false);
+        placeDao.save(place);
+        return reservationDao.save(new Reservation(null, LocalDate.now(), "EN_ATTENTE", clientId, matchId, placeId));
+    }
+
+    public void annuler(long reservationId) {
+        Reservation reservation = reservationDao.findById(reservationId)
+                .orElseThrow(() -> new IllegalArgumentException("Réservation introuvable"));
+        reservation.setStatut("ANNULEE");
+        reservationDao.save(reservation);
+        placeDao.findById(reservation.getPlaceId()).ifPresent(place -> { place.setDisponible(true); placeDao.save(place); });
+    }
+}

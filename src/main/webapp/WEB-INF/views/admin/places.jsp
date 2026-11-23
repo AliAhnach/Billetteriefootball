@@ -1,0 +1,1 @@
+<%@ page contentType="text/html;charset=UTF-8" %><!doctype html><html lang="fr"><head><meta charset="UTF-8"><title>Administration — Places</title></head><body><h1>Gestion des places</h1></body></html>

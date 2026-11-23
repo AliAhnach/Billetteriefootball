@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 /** Contrat d'accès aux données des matchs. */
-public interface MatchDao {
+public interface MatchDao extends IMatchDao {
     List<Match> findAll();
     Optional<Match> findById(long id);
     Match save(Match match);
