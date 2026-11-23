@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!doctype html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Matchs disponibles</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link href="${pageContext.request.contextPath}/css/app.css" rel="stylesheet"></head><body>
-<nav class="navbar navbar-expand navbar-football"><div class="container"><a class="navbar-brand fw-bold" href="${pageContext.request.contextPath}/matchs">⚽ Billetterie</a><div class="navbar-nav ms-auto"><a class="nav-link" href="${pageContext.request.contextPath}/login">Connexion</a></div></div></nav>
+<nav class="navbar navbar-expand navbar-football"><div class="container"><a class="navbar-brand fw-bold" href="${pageContext.request.contextPath}/matchs">⚽ Billetterie</a><div class="navbar-nav ms-auto"><c:choose><c:when test="${not empty sessionScope.nom}"><span class="nav-link text-white fw-semibold"><c:out value="${sessionScope.nom}"/></span></c:when><c:otherwise><a class="nav-link" href="${pageContext.request.contextPath}/login">Connexion</a></c:otherwise></c:choose></div></div></nav>
 <main class="container py-4"><header class="page-header"><span class="badge text-bg-success mb-2">Calendrier</span><h1 class="display-6 fw-bold">Matchs disponibles</h1><p>Choisissez votre prochaine rencontre et réservez votre place.</p></header>
 <c:if test="${empty matchs}"><div class="alert alert-light border">Aucun match disponible pour le moment.</div></c:if>
 <div class="row g-3"><c:forEach var="match" items="${matchs}"><div class="col-12 col-md-6 col-xl-4"><article class="card card-football h-100"><div class="card-body p-4">
