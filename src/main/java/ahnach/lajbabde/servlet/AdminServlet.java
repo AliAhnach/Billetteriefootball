@@ -1,15 +1,14 @@
 package ahnach.lajbabde.servlet;
 
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/admin", "/admin/*"})
 public class AdminServlet extends HttpServlet {
-    @Override protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    @Override protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException
+    {
         String path = req.getPathInfo();
         String page = path == null || path.equals("/") || path.startsWith("/match") ? "matchs" :
                 path.startsWith("/stade") ? "stades" : path.startsWith("/place") ? "places" :

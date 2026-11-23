@@ -1,7 +1,72 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0"
+         metadata-complete="true">
+    <display-name>Billetterie Football</display-name>
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+    <listener>
+        <listener-class>ahnach.lajbabde.config.ApplicationInitializer</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>authFilter</filter-name>
+        <filter-class>ahnach.lajbabde.servlet.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>authFilter</filter-name>
+        <url-pattern>/reserver</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>authFilter</filter-name>
+        <url-pattern>/billets</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>authFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>authServlet</servlet-name>
+        <servlet-class>ahnach.lajbabde.servlet.AuthServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>authServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>authServlet</servlet-name>
+        <url-pattern>/inscription</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>matchServlet</servlet-name>
+        <servlet-class>ahnach.lajbabde.servlet.MatchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping><servlet-name>matchServlet</servlet-name><url-pattern>/matchs</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>matchServlet</servlet-name><url-pattern>/match</url-pattern></servlet-mapping>
+
+    <servlet>
+        <servlet-name>billetServlet</servlet-name>
+        <servlet-class>ahnach.lajbabde.servlet.BilletServlet</servlet-class>
+    </servlet>
+    <servlet-mapping><servlet-name>billetServlet</servlet-name><url-pattern>/billets</url-pattern></servlet-mapping>
+
+    <servlet>
+        <servlet-name>reservationServlet</servlet-name>
+        <servlet-class>ahnach.lajbabde.servlet.ReservationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping><servlet-name>reservationServlet</servlet-name><url-pattern>/reserver</url-pattern></servlet-mapping>
+
+    <servlet>
+        <servlet-name>adminServlet</servlet-name>
+        <servlet-class>ahnach.lajbabde.servlet.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping><servlet-name>adminServlet</servlet-name><url-pattern>/admin</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>adminServlet</servlet-name><url-pattern>/admin/*</url-pattern></servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>matchs</welcome-file>
+    </welcome-file-list>
 </web-app>

@@ -4,13 +4,11 @@ import ahnach.lajbabde.service.MatchService;
 import ahnach.lajbabde.model.Match;
 import jakarta.servlet.ServletException;
 import java.util.Optional;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/matchs", "/match"})
 public class MatchServlet extends HttpServlet {
     private MatchService service;
     @Override public void init() { service = (MatchService) getServletContext().getAttribute("matchService"); }
@@ -24,7 +22,7 @@ public class MatchServlet extends HttpServlet {
         }
         try {
             Optional<Match> match = service.trouverMatch(Long.parseLong(id));
-            if (match.isEmpty()) { resp.sendError(404); return; }
+            if (!match.isPresent()) { resp.sendError(404); return; }
             req.setAttribute("match", match.get());
             req.getRequestDispatcher("/WEB-INF/views/detailsMatch.jsp").forward(req, resp);
         } catch (NumberFormatException e) { resp.sendError(400, "Identifiant de match invalide"); }

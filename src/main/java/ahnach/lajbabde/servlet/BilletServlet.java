@@ -4,13 +4,11 @@ import ahnach.lajbabde.service.BilletService;
 import ahnach.lajbabde.model.Billet;
 import jakarta.servlet.ServletException;
 import java.util.List;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/billets")
 public class BilletServlet extends HttpServlet {
     private BilletService service;
     @Override public void init() { service = (BilletService) getServletContext().getAttribute("billetService"); }

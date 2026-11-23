@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<!doctype html><html lang="fr"><head><meta charset="UTF-8"><title>Détail du match</title></head><body>
-<h1><c:out value="${match.equipeDomicile}"/> – <c:out value="${match.equipeExterieure}"/></h1>
-<p><c:out value="${match.competition}"/> · <c:out value="${match.stade}"/></p><p><c:out value="${match.dateHeure}"/></p>
-<a href="${pageContext.request.contextPath}/matchs">Retour aux matchs</a></body></html>
+<!doctype html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Détail du match</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link href="${pageContext.request.contextPath}/css/app.css" rel="stylesheet"></head><body>
+<nav class="navbar navbar-football"><div class="container"><a class="navbar-brand fw-bold" href="${pageContext.request.contextPath}/matchs">⚽ Billetterie</a></div></nav><main class="container py-5"><article class="card card-football mx-auto" style="max-width: 760px"><div class="card-body p-4 p-md-5"><span class="badge text-bg-success mb-3"><c:out value="${match.competition}"/></span>
+<h1 class="display-6 fw-bold"><c:out value="${match.equipeDomicile}"/> <span class="text-success">vs</span> <c:out value="${match.equipeExterieure}"/></h1><p class="lead text-muted-football"><c:out value="${match.stade}"/> · <c:out value="${match.dateHeure}"/></p>
+<a class="btn btn-football btn-lg mt-3" href="${pageContext.request.contextPath}/reservation?matchId=${match.id}">Réserver une place</a> <a class="btn btn-outline-secondary btn-lg mt-3" href="${pageContext.request.contextPath}/matchs">Retour</a></div></article></main></body></html>

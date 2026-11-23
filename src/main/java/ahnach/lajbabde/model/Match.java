@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 /** Représente un match proposé à la réservation. */
 @Entity
-@Table(name = "match")
+@Table(name = "matchs")
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 
 /** Représente un compte client ou administrateur. */
 @Entity
@@ -19,6 +20,7 @@ public class Utilisateur {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    @Column(unique = true, nullable = false)
     private String email;
     private String motDePasseHash;
     private String role;

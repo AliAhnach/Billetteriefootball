@@ -1,0 +1,68 @@
+:root {
+  --football-green: #087f5b;
+  --football-green-dark: #056044;
+  --football-ink: #17221d;
+  --football-muted: #6b7770;
+  --football-bg: #f3f7f4;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--football-bg);
+  color: var(--football-ink);
+}
+
+.navbar-football {
+  background: #10251c;
+}
+
+.navbar-football .navbar-brand,
+.navbar-football .nav-link {
+  color: #fff;
+}
+
+.navbar-football .nav-link:hover,
+.navbar-football .navbar-brand:hover {
+  color: #a8e6c8;
+}
+
+.page-header {
+  padding: 2.5rem 0 1.5rem;
+}
+
+.page-header p,
+.text-muted-football {
+  color: var(--football-muted);
+}
+
+.card-football {
+  border: 1px solid #e2ebe5;
+  border-radius: 1rem;
+  box-shadow: 0 .5rem 1.5rem rgba(18, 48, 32, .06);
+}
+
+.btn-football {
+  --bs-btn-bg: var(--football-green);
+  --bs-btn-border-color: var(--football-green);
+  --bs-btn-hover-bg: var(--football-green-dark);
+  --bs-btn-hover-border-color: var(--football-green-dark);
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: #fff;
+}
+
+.auth-card {
+  max-width: 32rem;
+  margin: 4rem auto;
+}
+
+.table thead th {
+  color: #526158;
+  font-size: .85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+footer {
+  color: var(--football-muted);
+  padding: 2rem 0;
+}
