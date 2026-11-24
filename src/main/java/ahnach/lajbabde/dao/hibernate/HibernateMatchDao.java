@@ -12,13 +12,42 @@ public class HibernateMatchDao implements MatchDao {
     public List<Match> findAll() { try (Session s = HibernateUtil.getSessionFactory().openSession()) { return s.createQuery("from Match order by dateHeure", Match.class).getResultList(); } }
     public Optional<Match> findById(long id) { try (Session s = HibernateUtil.getSessionFactory().openSession()) { return Optional.ofNullable(s.get(Match.class, id)); } }
     public Match save(Match v) {
-        Transaction tx = null;
-        try (Session s = HibernateUtil.getSessionFactory().openSession()) { tx = s.beginTransaction(); if (v.getId() == null) s.persist(v); else v = (Match) s.merge(v); tx.commit(); return v; }
-        catch (RuntimeException e) { if (tx != null && tx.isActive()) tx.rollback(); throw e; }
+        try (Session s = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction tx = s.beginTransaction();
+            try {
+                if (v.getId() == null) s.persist(v); else v = (Match) s.merge(v);
+                tx.commit();
+                return v;
+            } catch (RuntimeException e) {
+                rollbackWithoutMasking(tx, e);
+                throw e;
+            }
+        }
     }
     public boolean deleteById(long id) {
-        Transaction tx = null;
-        try (Session s = HibernateUtil.getSessionFactory().openSession()) { tx = s.beginTransaction(); Match v = s.get(Match.class, id); if (v == null) { tx.commit(); return false; } s.remove(v); tx.commit(); return true; }
-        catch (RuntimeException e) { if (tx != null && tx.isActive()) tx.rollback(); throw e; }
+        try (Session s = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction tx = s.beginTransaction();
+            try {
+                Match v = s.get(Match.class, id);
+                if (v == null) { tx.commit(); return false; }
+                s.createMutationQuery("delete from Billet where matchId = :id").setParameter("id", id).executeUpdate();
+                s.createMutationQuery("delete from Reservation where matchId = :id").setParameter("id", id).executeUpdate();
+                s.remove(v);
+                tx.commit();
+                return true;
+            } catch (RuntimeException e) {
+                rollbackWithoutMasking(tx, e);
+                throw e;
+            }
+        }
+    }
+
+    private void rollbackWithoutMasking(Transaction tx, RuntimeException original) {
+        if (tx == null || !tx.isActive()) return;
+        try {
+            tx.rollback();
+        } catch (RuntimeException rollbackError) {
+            original.addSuppressed(rollbackError);
+        }
     }
 }

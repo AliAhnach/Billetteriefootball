@@ -28,6 +28,10 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>authFilter</filter-name>
+        <url-pattern>/admin</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>authFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
 
@@ -50,6 +54,7 @@
     </servlet>
     <servlet-mapping><servlet-name>matchServlet</servlet-name><url-pattern>/matchs</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>matchServlet</servlet-name><url-pattern>/match</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>matchServlet</servlet-name><url-pattern>/photoMatch</url-pattern></servlet-mapping>
 
     <servlet>
         <servlet-name>billetServlet</servlet-name>
@@ -67,6 +72,11 @@
     <servlet>
         <servlet-name>adminServlet</servlet-name>
         <servlet-class>ahnach.lajbabde.servlet.AdminServlet</servlet-class>
+        <multipart-config>
+            <max-file-size>5242880</max-file-size>
+            <max-request-size>11534336</max-request-size>
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
     </servlet>
     <servlet-mapping><servlet-name>adminServlet</servlet-name><url-pattern>/admin</url-pattern></servlet-mapping>
     <servlet-mapping><servlet-name>adminServlet</servlet-name><url-pattern>/admin/*</url-pattern></servlet-mapping>

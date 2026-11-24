@@ -1,11 +1,13 @@
 package ahnach.lajbabde.model;
 
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 
 /** Représente un match proposé à la réservation. */
 @Entity
@@ -19,6 +21,10 @@ public class Match {
     private String competition;
     private String stade;
     private LocalDateTime dateHeure;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal prix;
+    private String photoDomicileFichier;
+    private String photoExterieureFichier;
 
     public Match() {
     }
@@ -45,4 +51,10 @@ public class Match {
     public void setStade(String stade) { this.stade = stade; }
     public LocalDateTime getDateHeure() { return dateHeure; }
     public void setDateHeure(LocalDateTime dateHeure) { this.dateHeure = dateHeure; }
+    public BigDecimal getPrix() { return prix; }
+    public void setPrix(BigDecimal prix) { this.prix = prix; }
+    public String getPhotoDomicileFichier() { return photoDomicileFichier; }
+    public void setPhotoDomicileFichier(String photoDomicileFichier) { this.photoDomicileFichier = photoDomicileFichier; }
+    public String getPhotoExterieureFichier() { return photoExterieureFichier; }
+    public void setPhotoExterieureFichier(String photoExterieureFichier) { this.photoExterieureFichier = photoExterieureFichier; }
 }
