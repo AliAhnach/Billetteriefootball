@@ -16,4 +16,16 @@ public class HibernateReservationDao implements IReservationDao {
         try (Session s = HibernateUtil.getSessionFactory().openSession()) { tx = s.beginTransaction(); if (v.getId() == null) s.persist(v); else v = (Reservation) s.merge(v); tx.commit(); return v; }
         catch (RuntimeException e) { if (tx != null && tx.isActive()) tx.rollback(); throw e; }
     }
+    public void delete(Reservation reservation) {
+        Transaction tx = null;
+        try (Session s = HibernateUtil.getSessionFactory().openSession()) {
+            tx = s.beginTransaction();
+            Reservation managed = s.get(Reservation.class, reservation.getId());
+            if (managed != null) s.remove(managed);
+            tx.commit();
+        } catch (RuntimeException e) {
+            if (tx != null && tx.isActive()) tx.rollback();
+            throw e;
+        }
+    }
 }

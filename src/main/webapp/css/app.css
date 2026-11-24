@@ -41,6 +41,17 @@ body {
   box-shadow: 0 .5rem 1.5rem rgba(18, 48, 32, .06);
 }
 
+.reservation-price {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .5rem 1.5rem;
+  padding: 1rem;
+  border: 1px solid #d9e9df;
+  border-radius: .75rem;
+  background: #f5faf6;
+}
+
 .competition-label {
   display: flex;
   align-items: center;

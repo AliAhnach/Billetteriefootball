@@ -6,6 +6,7 @@ import ahnach.lajbabde.model.Place;
 import ahnach.lajbabde.model.Reservation;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 /** Règles de réservation et de libération des places. */
 public class ReservationService {
@@ -17,7 +18,6 @@ public class ReservationService {
     }
 
     public List<Reservation> reservationsDuClient(long clientId) { return reservationDao.findByClientId(clientId); }
-
     public Reservation reserver(long clientId, long matchId, long placeId) {
         Place place = placeDao.findById(placeId).orElseThrow(() -> new IllegalArgumentException("Place introuvable"));
         if (!place.isDisponible()) throw new IllegalStateException("Cette place n'est plus disponible");
@@ -43,5 +43,27 @@ public class ReservationService {
         reservation.setStatut("ANNULEE");
         reservationDao.save(reservation);
         placeDao.findById(reservation.getPlaceId()).ifPresent(place -> { place.setDisponible(true); placeDao.save(place); });
+    }
+
+    public void annulerPourClient(long clientId, long reservationId) {
+        Reservation reservation = reservationDuClient(clientId, reservationId);
+        if ("ANNULEE".equals(reservation.getStatut())) {
+            throw new IllegalStateException("Cette réservation est déjà annulée");
+        }
+        annuler(reservationId);
+    }
+
+    public void supprimerPourClient(long clientId, long reservationId) {
+        Reservation reservation = reservationDuClient(clientId, reservationId);
+        reservationDao.delete(reservation);
+    }
+
+    private Reservation reservationDuClient(long clientId, long reservationId) {
+        Reservation reservation = reservationDao.findById(reservationId)
+                .orElseThrow(() -> new IllegalArgumentException("Réservation introuvable"));
+        if (!Objects.equals(reservation.getClientId(), clientId)) {
+            throw new IllegalArgumentException("Vous ne pouvez modifier que vos propres réservations");
+        }
+        return reservation;
     }
 }
