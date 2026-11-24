@@ -17,11 +17,21 @@ public class Reservation {
     private Long clientId;
     private Long matchId;
     private Long placeId;
+    private String categorie;
+    private Integer nombrePlaces;
 
     public Reservation() { }
     public Reservation(Long id, LocalDate dateReservation, String statut, Long clientId, Long matchId, Long placeId) {
         this.id = id; this.dateReservation = dateReservation; this.statut = statut;
         this.clientId = clientId; this.matchId = matchId; this.placeId = placeId;
+        this.nombrePlaces = 1;
+    }
+
+    public Reservation(Long id, LocalDate dateReservation, String statut, Long clientId, Long matchId,
+                       String categorie, Integer nombrePlaces) {
+        this.id = id; this.dateReservation = dateReservation; this.statut = statut;
+        this.clientId = clientId; this.matchId = matchId; this.categorie = categorie;
+        this.nombrePlaces = nombrePlaces;
     }
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -35,4 +45,8 @@ public class Reservation {
     public void setMatchId(Long matchId) { this.matchId = matchId; }
     public Long getPlaceId() { return placeId; }
     public void setPlaceId(Long placeId) { this.placeId = placeId; }
+    public String getCategorie() { return categorie; }
+    public void setCategorie(String categorie) { this.categorie = categorie; }
+    public Integer getNombrePlaces() { return nombrePlaces; }
+    public void setNombrePlaces(Integer nombrePlaces) { this.nombrePlaces = nombrePlaces; }
 }

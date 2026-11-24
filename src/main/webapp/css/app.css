@@ -41,6 +41,127 @@ body {
   box-shadow: 0 .5rem 1.5rem rgba(18, 48, 32, .06);
 }
 
+.competition-label {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.competition-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.competition-logo-frame {
+  display: inline-flex;
+  box-sizing: border-box;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 2.5rem;
+  max-height: 2.5rem;
+  padding: .2rem;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border: 1px solid #e7eee9;
+  border-radius: .65rem;
+  background: #fff;
+}
+
+.competition-logo-frame-large {
+  width: 3.25rem;
+  height: 3.25rem;
+  max-width: 3.25rem;
+  max-height: 3.25rem;
+}
+
+.match-teams {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  margin: 1.25rem 0;
+}
+
+.match-team {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.team-logo-frame {
+  display: inline-flex;
+  box-sizing: border-box;
+  width: 4.5rem;
+  height: 4.5rem;
+  max-width: 4.5rem;
+  max-height: 4.5rem;
+  padding: .45rem;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border: 1px solid #e7eee9;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 .25rem .75rem rgba(18, 48, 32, .07);
+}
+
+.team-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.team-logo-frame-large {
+  width: 7rem;
+  height: 7rem;
+  max-width: 7rem;
+  max-height: 7rem;
+  padding: .65rem;
+  border-radius: 1.35rem;
+}
+
+.match-vs {
+  color: var(--football-green);
+  font-size: .9rem;
+  font-weight: 800;
+}
+
+.match-teams-detail {
+  justify-content: center;
+  gap: clamp(.75rem, 5vw, 2rem);
+  font-size: 1.25rem;
+}
+
+.match-team > span:last-child {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 420px) {
+  .match-teams-detail {
+    gap: .75rem;
+    font-size: 1rem;
+  }
+
+  .team-logo-frame-large {
+    width: 5rem;
+    height: 5rem;
+    max-width: 5rem;
+    max-height: 5rem;
+  }
+}
+
 .btn-football {
   --bs-btn-bg: var(--football-green);
   --bs-btn-border-color: var(--football-green);

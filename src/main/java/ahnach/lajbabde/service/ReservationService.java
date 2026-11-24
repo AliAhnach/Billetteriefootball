@@ -26,6 +26,17 @@ public class ReservationService {
         return reservationDao.save(new Reservation(null, LocalDate.now(), "EN_ATTENTE", clientId, matchId, placeId));
     }
 
+    public Reservation reserver(long clientId, long matchId, String categorie, int nombrePlaces) {
+        if (categorie == null || categorie.trim().isEmpty()) {
+            throw new IllegalArgumentException("Veuillez choisir une catégorie de tribune");
+        }
+        if (nombrePlaces < 1 || nombrePlaces > 10) {
+            throw new IllegalArgumentException("Le nombre de places doit être compris entre 1 et 10");
+        }
+        return reservationDao.save(new Reservation(null, LocalDate.now(), "EN_ATTENTE", clientId, matchId,
+                categorie.trim(), nombrePlaces));
+    }
+
     public void annuler(long reservationId) {
         Reservation reservation = reservationDao.findById(reservationId)
                 .orElseThrow(() -> new IllegalArgumentException("Réservation introuvable"));

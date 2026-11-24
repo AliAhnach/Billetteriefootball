@@ -20,6 +20,10 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>authFilter</filter-name>
+        <url-pattern>/reservation</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>authFilter</filter-name>
         <url-pattern>/billets</url-pattern>
     </filter-mapping>
     <filter-mapping>
@@ -58,6 +62,7 @@
         <servlet-class>ahnach.lajbabde.servlet.ReservationServlet</servlet-class>
     </servlet>
     <servlet-mapping><servlet-name>reservationServlet</servlet-name><url-pattern>/reserver</url-pattern></servlet-mapping>
+    <servlet-mapping><servlet-name>reservationServlet</servlet-name><url-pattern>/reservation</url-pattern></servlet-mapping>
 
     <servlet>
         <servlet-name>adminServlet</servlet-name>
