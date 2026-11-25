@@ -30,12 +30,12 @@ public final class HibernateUtil {
             }
             Configuration configuration = new Configuration();
             configuration.setProperty("hibernate.connection.driver_class", setting("DB_DRIVER", "db.driver", "com.mysql.cj.jdbc.Driver", properties));
-            configuration.setProperty("hibernate.connection.url", setting("DB_URL", "db.url", "jdbc:mysql://localhost:3306/gestion_projet?serverTimezone=UTC", properties));
-            configuration.setProperty("hibernate.connection.username", setting("DB_USER", "db.user", "billetterie_app", properties));
+            configuration.setProperty("hibernate.connection.url", setting("DB_URL", "db.url", "jdbc:mysql://localhost:3306/BilletrieDB?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", properties));
+            configuration.setProperty("hibernate.connection.username", setting("DB_USER", "db.user", "root", properties));
             configuration.setProperty("hibernate.connection.password", setting("DB_PASSWORD", "db.password", "", properties));
-            configuration.setProperty("hibernate.dialect", setting("HIBERNATE_DIALECT", "hibernate.dialect", "org.hibernate.dialect.MySQLDialect", properties));
-            configuration.setProperty("hibernate.hbm2ddl.auto", setting("HIBERNATE_DDL_AUTO", "hibernate.hbm2ddl.auto", "validate", properties));
-            configuration.setProperty("hibernate.show_sql", setting("HIBERNATE_SHOW_SQL", "hibernate.show_sql", "false", properties));
+            configuration.setProperty("hibernate.dialect", properties.getProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect"));
+            configuration.setProperty("hibernate.hbm2ddl.auto", properties.getProperty("hibernate.hbm2ddl.auto", "update"));
+            configuration.setProperty("hibernate.show_sql", properties.getProperty("hibernate.show_sql", "false"));
             configuration.setProperty("hibernate.format_sql", "true");
             configuration.addAnnotatedClass(Utilisateur.class);
             configuration.addAnnotatedClass(Client.class);
@@ -52,10 +52,6 @@ public final class HibernateUtil {
 
     private static String setting(String envName, String propertyName, String fallback, Properties properties) {
         String value = System.getenv(envName);
-        // The Docker Compose .env uses MYSQL_PASSWORD; accept it for Tomcat too.
-        if ((value == null || value.trim().isEmpty()) && "DB_PASSWORD".equals(envName)) {
-            value = System.getenv("MYSQL_PASSWORD");
-        }
         if (value == null || value.trim().isEmpty()) value = properties.getProperty(propertyName, fallback);
         return value;
     }
