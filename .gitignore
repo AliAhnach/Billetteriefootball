@@ -37,3 +37,12 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Secrets and local Docker data
+.env
+.env.*
+!.env.example
+*.sql.gz
+*.dump
+*.bak
+mysql-data/
