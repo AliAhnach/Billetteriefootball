@@ -1,6 +1,7 @@
 package ahnach.lajbabde.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.math.BigDecimal;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import jakarta.persistence.Column;
 @Entity
 @Table(name = "matchs")
 public class Match {
+    private static final DateTimeFormatter DATE_HEURE_AFFICHAGE = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -50,6 +52,9 @@ public class Match {
     public String getStade() { return stade; }
     public void setStade(String stade) { this.stade = stade; }
     public LocalDateTime getDateHeure() { return dateHeure; }
+    public String getDateHeureAffichee() {
+        return dateHeure == null ? "" : dateHeure.format(DATE_HEURE_AFFICHAGE);
+    }
     public void setDateHeure(LocalDateTime dateHeure) { this.dateHeure = dateHeure; }
     public BigDecimal getPrix() { return prix; }
     public void setPrix(BigDecimal prix) { this.prix = prix; }

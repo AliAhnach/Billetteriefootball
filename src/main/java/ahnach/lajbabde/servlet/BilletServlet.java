@@ -33,14 +33,47 @@ public class BilletServlet extends HttpServlet {
         if (service == null) { resp.sendError(503, "Service des réservations indisponible"); return; }
         try {
             long clientId = Long.parseLong(String.valueOf(req.getSession().getAttribute("utilisateurId")));
+            String consulterParam = req.getParameter("consulter");
+            if (consulterParam != null) {
+                afficherBillet(req, resp, clientId, Long.parseLong(consulterParam));
+                return;
+            }
+            String telechargerParam = req.getParameter("telecharger");
             String billetParam = req.getParameter("billet");
-            if (billetParam != null) {
-                telechargerBillet(req, resp, clientId, Long.parseLong(billetParam));
+            if (telechargerParam != null || billetParam != null) {
+                String reservationId = telechargerParam != null ? telechargerParam : billetParam;
+                telechargerBillet(req, resp, clientId, Long.parseLong(reservationId));
                 return;
             }
             req.setAttribute("reservations", service.reservationsDuClient(clientId));
             req.getRequestDispatcher("/WEB-INF/views/mesBillets.jsp").forward(req, resp);
         } catch (NumberFormatException e) { resp.sendError(400, "Identifiant invalide"); }
+    }
+
+    private void afficherBillet(HttpServletRequest req, HttpServletResponse resp, long clientId, long reservationId)
+            throws IOException, ServletException {
+        if (matchService == null) {
+            resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, "Les informations du match sont indisponibles");
+            return;
+        }
+        try {
+            Reservation reservation = service.reservationPourClient(clientId, reservationId);
+            if (!"VALIDEE".equals(reservation.getStatut())) {
+                resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Le billet est disponible après confirmation de la réservation.");
+                return;
+            }
+            Match match = matchService.trouverMatch(reservation.getMatchId()).orElse(null);
+            if (match == null) { resp.sendError(HttpServletResponse.SC_NOT_FOUND); return; }
+            BigDecimal prix = prixBillet(reservation, match);
+            req.setAttribute("reservation", reservation);
+            req.setAttribute("match", match);
+            req.setAttribute("prixUnitaire", prix);
+            req.setAttribute("prixTotal", prix == null || reservation.getNombrePlaces() == null
+                    ? null : prix.multiply(BigDecimal.valueOf(reservation.getNombrePlaces())));
+            req.getRequestDispatcher("/WEB-INF/views/billet.jsp").forward(req, resp);
+        } catch (IllegalArgumentException e) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Réservation introuvable");
+        }
     }
 
     private void telechargerBillet(HttpServletRequest req, HttpServletResponse resp, long clientId, long reservationId)
@@ -58,11 +91,7 @@ public class BilletServlet extends HttpServlet {
             Match match = matchService.trouverMatch(reservation.getMatchId()).orElse(null);
             Utilisateur client = utilisateurService.trouverParId(clientId).orElse(null);
             if (match == null || client == null) { resp.sendError(HttpServletResponse.SC_NOT_FOUND); return; }
-            BigDecimal prix = match.getPrix();
-            if (billetService != null && reservation.getCategorie() != null) {
-                Map<String, BigDecimal> tarifs = billetService.tarifsDisponibles(match.getId());
-                prix = tarifs.getOrDefault(reservation.getCategorie(), prix);
-            }
+            BigDecimal prix = prixBillet(reservation, match);
             byte[] logo = chargerLogoFootTicket();
             byte[] pdf = BilletPdfService.generer(reservation, match, client, prix, logo);
             resp.setContentType("application/pdf");
@@ -72,6 +101,15 @@ public class BilletServlet extends HttpServlet {
         } catch (IllegalArgumentException e) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Réservation introuvable");
         }
+    }
+
+    private BigDecimal prixBillet(Reservation reservation, Match match) {
+        BigDecimal prix = match.getPrix();
+        if (billetService != null && reservation.getCategorie() != null) {
+            Map<String, BigDecimal> tarifs = billetService.tarifsDisponibles(match.getId());
+            prix = tarifs.getOrDefault(reservation.getCategorie(), prix);
+        }
+        return prix;
     }
 
     private byte[] chargerLogoFootTicket() throws IOException {

@@ -1,7 +1,7 @@
 <footer class="site-footer">
-  <div class="container py-3 text-center">
+  <div class="container py-2 text-center">
     <div class="footer-signature">
-      <img src="${pageContext.request.contextPath}/images/logos/logo-FootTicket.png" alt="Logo FootTicket">
+      <img src="${pageContext.request.contextPath}/images/logos/logo-FootTicket.png" alt="Logo FootTicket"><span class="brand-wordmark" aria-label="FootTicket"><span class="brand-wordmark-foot">Foot</span><span class="brand-wordmark-ticket">Ticket</span></span>
       <small>&copy; FootTicket. Tous droits r&eacute;serv&eacute;s.</small>
     </div>
   </div>

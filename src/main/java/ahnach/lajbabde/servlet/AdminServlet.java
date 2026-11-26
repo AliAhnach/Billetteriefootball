@@ -16,6 +16,9 @@ import java.time.format.DateTimeParseException;
 import java.util.UUID;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import ahnach.lajbabde.model.Match;
 import ahnach.lajbabde.model.Utilisateur;
 import ahnach.lajbabde.service.MatchService;
@@ -46,7 +49,21 @@ public class AdminServlet extends HttpServlet {
         if (page == null) { resp.sendError(404); return; }
         if ("matchs".equals(page)) {
             if (matchService == null) { resp.sendError(503, "Service des matchs indisponible"); return; }
-            req.setAttribute("matchs", matchService.listerMatchs());
+            String recherche = req.getParameter("q");
+            recherche = recherche == null ? "" : recherche.trim();
+            List<Match> matchs = matchService.listerMatchs();
+            if (!recherche.isEmpty()) {
+                List<Match> resultats = new ArrayList<>();
+                String terme = recherche.toLowerCase(Locale.ROOT);
+                for (Match match : matchs) {
+                    if (contient(match.getEquipeDomicile(), terme) || contient(match.getEquipeExterieure(), terme)) {
+                        resultats.add(match);
+                    }
+                }
+                matchs = resultats;
+            }
+            req.setAttribute("recherche", recherche);
+            req.setAttribute("matchs", matchs);
             String modifier = req.getParameter("modifier");
             if (modifier != null) {
                 try {
@@ -62,6 +79,10 @@ public class AdminServlet extends HttpServlet {
             chargerReservations(req);
         }
         req.getRequestDispatcher("/WEB-INF/views/admin/" + page + ".jsp").forward(req, resp);
+    }
+
+    private boolean contient(String valeur, String terme) {
+        return valeur != null && valeur.toLowerCase(Locale.ROOT).contains(terme);
     }
 
     @Override protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

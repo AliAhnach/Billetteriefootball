@@ -1,7 +1,10 @@
 package ahnach.lajbabde.servlet;
 
 import ahnach.lajbabde.service.MatchService;
+import ahnach.lajbabde.service.BilletService;
 import ahnach.lajbabde.model.Match;
+import java.math.BigDecimal;
+import java.util.Map;
 import jakarta.servlet.ServletException;
 import java.util.Optional;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +20,11 @@ import java.util.Locale;
 
 public class MatchServlet extends HttpServlet {
     private MatchService service;
-    @Override public void init() { service = (MatchService) getServletContext().getAttribute("matchService"); }
+    private BilletService billetService;
+    @Override public void init() {
+        service = (MatchService) getServletContext().getAttribute("matchService");
+        billetService = (BilletService) getServletContext().getAttribute("billetService");
+    }
     @Override protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         if (service == null) { resp.sendError(503, "Service des matchs indisponible"); return; }
         if ("/photoMatch".equals(req.getServletPath())) { afficherPhoto(req, resp); return; }
@@ -35,6 +42,9 @@ public class MatchServlet extends HttpServlet {
                 }
                 matchs = resultats;
             }
+            for (Match match : matchs) {
+                match.setPrix(prixMinimum(match));
+            }
             req.setAttribute("recherche", recherche);
             req.setAttribute("matchs", matchs);
             req.getRequestDispatcher("/WEB-INF/views/matchs.jsp").forward(req, resp);
@@ -43,9 +53,17 @@ public class MatchServlet extends HttpServlet {
         try {
             Optional<Match> match = service.trouverMatch(Long.parseLong(id));
             if (!match.isPresent()) { resp.sendError(404); return; }
+            match.get().setPrix(prixMinimum(match.get()));
             req.setAttribute("match", match.get());
             req.getRequestDispatcher("/WEB-INF/views/detailsMatch.jsp").forward(req, resp);
         } catch (NumberFormatException e) { resp.sendError(400, "Identifiant de match invalide"); }
+    }
+
+    private BigDecimal prixMinimum(Match match) {
+        if (billetService == null) return match.getPrix();
+        Map<String, BigDecimal> tarifs = billetService.tarifsDisponibles(match.getId());
+        return tarifs.values().stream().filter(java.util.Objects::nonNull)
+                .min(BigDecimal::compareTo).orElse(match.getPrix());
     }
 
     private boolean contient(String equipe, String recherche) {

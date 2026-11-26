@@ -34,6 +34,7 @@ public class ReservationService {
             reservation.setStatut("VALIDEE");
         } else if ("annuler".equals(action)) {
             if ("ANNULEE".equals(reservation.getStatut())) throw new IllegalStateException("Cette réservation est déjà annulée");
+            if ("VALIDEE".equals(reservation.getStatut())) throw new IllegalStateException("Une réservation confirmée ne peut plus être annulée");
             reservation.setStatut("ANNULEE");
             libererPlace(reservation);
         } else throw new IllegalArgumentException("Action inconnue");
@@ -78,6 +79,9 @@ public class ReservationService {
         Reservation reservation = reservationDuClient(clientId, reservationId);
         if ("ANNULEE".equals(reservation.getStatut())) {
             throw new IllegalStateException("Cette réservation est déjà annulée");
+        }
+        if ("VALIDEE".equals(reservation.getStatut())) {
+            throw new IllegalStateException("Une réservation confirmée ne peut plus être annulée");
         }
         annuler(reservationId);
     }
