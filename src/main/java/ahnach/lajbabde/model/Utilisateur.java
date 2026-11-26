@@ -24,6 +24,8 @@ public class Utilisateur {
     private String email;
     private String motDePasseHash;
     private String role;
+    @Column(length = 255)
+    private String photoProfilFichier;
 
     public Utilisateur() {
     }
@@ -46,4 +48,6 @@ public class Utilisateur {
     public void setMotDePasseHash(String motDePasseHash) { this.motDePasseHash = motDePasseHash; }
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+    public String getPhotoProfilFichier() { return photoProfilFichier; }
+    public void setPhotoProfilFichier(String photoProfilFichier) { this.photoProfilFichier = photoProfilFichier; }
 }

@@ -14,13 +14,27 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
 import ahnach.lajbabde.model.Match;
+import ahnach.lajbabde.model.Utilisateur;
 import ahnach.lajbabde.service.MatchService;
+import ahnach.lajbabde.service.ReservationService;
+import ahnach.lajbabde.service.UtilisateurService;
+import ahnach.lajbabde.service.BilletService;
 import jakarta.servlet.http.Part;
 
 public class AdminServlet extends HttpServlet {
     private MatchService matchService;
-    @Override public void init() { matchService = (MatchService) getServletContext().getAttribute("matchService"); }
+    private ReservationService reservationService;
+    private UtilisateurService utilisateurService;
+    private BilletService billetService;
+    @Override public void init() {
+        matchService = (MatchService) getServletContext().getAttribute("matchService");
+        reservationService = (ReservationService) getServletContext().getAttribute("reservationService");
+        utilisateurService = (UtilisateurService) getServletContext().getAttribute("utilisateurService");
+        billetService = (BilletService) getServletContext().getAttribute("billetService");
+    }
 
     @Override protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException
     {
@@ -39,16 +53,35 @@ public class AdminServlet extends HttpServlet {
                     Match match = matchService.trouverMatch(Long.parseLong(modifier)).orElse(null);
                     if (match == null) { resp.sendError(404); return; }
                     req.setAttribute("matchEnEdition", match);
+                    if (billetService != null) req.setAttribute("tarifsEdition", billetService.tarifsDisponibles(match.getId()));
                 } catch (NumberFormatException e) { resp.sendError(400, "Identifiant de match invalide"); return; }
             }
+        }
+        if ("reservations".equals(page)) {
+            if (reservationService == null) { resp.sendError(503, "Service des réservations indisponible"); return; }
+            chargerReservations(req);
         }
         req.getRequestDispatcher("/WEB-INF/views/admin/" + page + ".jsp").forward(req, resp);
     }
 
     @Override protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        if (matchService == null) { resp.sendError(503, "Service des matchs indisponible"); return; }
         req.setCharacterEncoding("UTF-8");
         String path = req.getPathInfo();
+        if (path != null && path.startsWith("/reservation")) {
+            if (reservationService == null) { resp.sendError(503, "Service des réservations indisponible"); return; }
+            try {
+                long id = Long.parseLong(req.getParameter("id"));
+                reservationService.traiterParAdmin(id, req.getParameter("action"), req.getParameter("categorie"));
+                resp.sendRedirect(req.getContextPath() + "/admin/reservations?resultat=modifie");
+            } catch (NumberFormatException e) { resp.sendError(400, "Identifiant de réservation invalide"); }
+            catch (IllegalArgumentException | IllegalStateException e) {
+                req.setAttribute("erreur", e.getMessage());
+                chargerReservations(req);
+                req.getRequestDispatcher("/WEB-INF/views/admin/reservations.jsp").forward(req, resp);
+            }
+            return;
+        }
+        if (matchService == null) { resp.sendError(503, "Service des matchs indisponible"); return; }
         if (path == null || !path.startsWith("/match")) { resp.sendError(501, "Cette opération n'est pas disponible"); return; }
         String contentType = req.getContentType();
         String action = contentType == null || !contentType.toLowerCase(java.util.Locale.ROOT).startsWith("multipart/form-data")
@@ -64,7 +97,9 @@ public class AdminServlet extends HttpServlet {
         final String idParam;
         final Long id;
         final LocalDateTime dateHeure;
-        final BigDecimal prix;
+        final BigDecimal prixCentrale;
+        final BigDecimal prixLaterale;
+        final BigDecimal prixPopulaire;
         final String domicile;
         final String exterieure;
         final String equipeDomicile;
@@ -75,7 +110,9 @@ public class AdminServlet extends HttpServlet {
             idParam = req.getParameter("id");
             id = idParam == null || idParam.trim().isEmpty() ? null : Long.valueOf(idParam);
             dateHeure = LocalDateTime.parse(req.getParameter("dateHeure"));
-            prix = new BigDecimal(req.getParameter("prix"));
+            prixCentrale = lirePrix(req.getParameter("prixCentrale"), "centrale");
+            prixLaterale = lirePrix(req.getParameter("prixLaterale"), "latérale");
+            prixPopulaire = lirePrix(req.getParameter("prixPopulaire"), "populaire");
             equipeDomicile = req.getParameter("equipeDomicile");
             equipeExterieure = req.getParameter("equipeExterieure");
             competition = req.getParameter("competition");
@@ -92,14 +129,52 @@ public class AdminServlet extends HttpServlet {
             return;
         }
 
+        if (billetService == null) { resp.sendError(503, "Service des tarifs indisponible"); return; }
         try {
-            matchService.enregistrerMatch(id, equipeDomicile, equipeExterieure, competition, stade,
-                    dateHeure, prix, domicile, exterieure);
+            Match match = matchService.enregistrerMatch(id, equipeDomicile, equipeExterieure, competition, stade,
+                    dateHeure, prixCentrale, domicile, exterieure);
+            Map<String, BigDecimal> tarifs = new HashMap<>();
+            tarifs.put("Tribune centrale", prixCentrale);
+            tarifs.put("Tribune latérale", prixLaterale);
+            tarifs.put("Tribune populaire", prixPopulaire);
+            billetService.mettreAJourTarifs(match.getId(), tarifs);
         } catch (IllegalArgumentException e) {
             afficherErreurSaisie(req, resp, e.getMessage());
             return;
         }
         resp.sendRedirect(req.getContextPath() + "/admin/matchs?resultat=" + (id == null ? "ajoute" : "modifie"));
+    }
+
+    private BigDecimal lirePrix(String valeur, String categorie) {
+        if (valeur == null || valeur.trim().isEmpty()) {
+            throw new IllegalArgumentException("Saisissez le tarif de la tribune " + categorie + ".");
+        }
+        BigDecimal prix = new BigDecimal(valeur.trim());
+        if (prix.signum() < 0) throw new IllegalArgumentException("Le tarif de la tribune " + categorie + " doit être positif ou nul.");
+        return prix;
+    }
+
+    private void chargerReservations(HttpServletRequest req) {
+        java.util.List<ahnach.lajbabde.model.Reservation> reservations = reservationService.toutesLesReservations();
+        Map<Long, String> nomsClients = new HashMap<>();
+        Map<Long, String> nomsMatchs = new HashMap<>();
+        for (ahnach.lajbabde.model.Reservation reservation : reservations) {
+            Long clientId = reservation.getClientId();
+            if (clientId != null && !nomsClients.containsKey(clientId)) {
+                String nom = utilisateurService == null ? null : utilisateurService.trouverParId(clientId)
+                        .map(Utilisateur::getNom).orElse(null);
+                nomsClients.put(clientId, nom == null ? "Client #" + clientId : nom);
+            }
+            Long matchId = reservation.getMatchId();
+            if (matchId != null && !nomsMatchs.containsKey(matchId)) {
+                String nom = matchService == null ? null : matchService.trouverMatch(matchId)
+                        .map(m -> m.getEquipeDomicile() + " – " + m.getEquipeExterieure()).orElse(null);
+                nomsMatchs.put(matchId, nom == null ? "Match #" + matchId : nom);
+            }
+        }
+        req.setAttribute("reservations", reservations);
+        req.setAttribute("nomsClients", nomsClients);
+        req.setAttribute("nomsMatchs", nomsMatchs);
     }
 
     private void afficherErreurSaisie(HttpServletRequest req, HttpServletResponse resp, String message)

@@ -28,6 +28,10 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>authFilter</filter-name>
+        <url-pattern>/profil/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>authFilter</filter-name>
         <url-pattern>/admin</url-pattern>
     </filter-mapping>
     <filter-mapping>
@@ -49,6 +53,12 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>logoutServlet</servlet-name>
+        <servlet-class>ahnach.lajbabde.servlet.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping><servlet-name>logoutServlet</servlet-name><url-pattern>/logout</url-pattern></servlet-mapping>
+
+    <servlet>
         <servlet-name>matchServlet</servlet-name>
         <servlet-class>ahnach.lajbabde.servlet.MatchServlet</servlet-class>
     </servlet>
@@ -61,6 +71,17 @@
         <servlet-class>ahnach.lajbabde.servlet.BilletServlet</servlet-class>
     </servlet>
     <servlet-mapping><servlet-name>billetServlet</servlet-name><url-pattern>/billets</url-pattern></servlet-mapping>
+
+    <servlet>
+        <servlet-name>profilServlet</servlet-name>
+        <servlet-class>ahnach.lajbabde.servlet.ProfilServlet</servlet-class>
+        <multipart-config>
+            <max-file-size>3145728</max-file-size>
+            <max-request-size>4194304</max-request-size>
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet-mapping><servlet-name>profilServlet</servlet-name><url-pattern>/profil/*</url-pattern></servlet-mapping>
 
     <servlet>
         <servlet-name>reservationServlet</servlet-name>

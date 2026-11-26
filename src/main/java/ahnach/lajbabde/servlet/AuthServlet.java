@@ -72,6 +72,7 @@ public class AuthServlet extends HttpServlet {
         session.setAttribute("nom", compte.getNom());
         session.setAttribute("email", compte.getEmail());
         session.setAttribute("role", compte.getRole());
+        session.setAttribute("photoProfilFichier", compte.getPhotoProfilFichier());
     }
 
     private void connecterAdministrateur(HttpServletRequest req) {

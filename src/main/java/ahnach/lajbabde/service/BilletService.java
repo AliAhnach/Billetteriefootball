@@ -28,4 +28,21 @@ public class BilletService {
         }
         return tarifs;
     }
+
+    public void mettreAJourTarifs(long matchId, Map<String, BigDecimal> nouveauxTarifs) {
+        Map<String, Boolean> tarifsMisAJour = new TreeMap<>();
+        for (Billet billet : billetDao.findByMatchId(matchId)) {
+            BigDecimal prix = nouveauxTarifs.get(billet.getCategorie());
+            if (billet.isDisponible() && prix != null) {
+                billet.setPrix(prix);
+                billetDao.save(billet);
+                tarifsMisAJour.put(billet.getCategorie(), true);
+            }
+        }
+        for (Map.Entry<String, BigDecimal> tarif : nouveauxTarifs.entrySet()) {
+            if (!tarifsMisAJour.containsKey(tarif.getKey())) {
+                billetDao.save(new Billet(null, matchId, tarif.getKey(), tarif.getValue(), true));
+            }
+        }
+    }
 }

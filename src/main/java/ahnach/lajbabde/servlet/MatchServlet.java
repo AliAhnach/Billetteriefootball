@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class MatchServlet extends HttpServlet {
     private MatchService service;
@@ -20,7 +23,20 @@ public class MatchServlet extends HttpServlet {
         if ("/photoMatch".equals(req.getServletPath())) { afficherPhoto(req, resp); return; }
         String id = req.getParameter("id");
         if (id == null) {
-            req.setAttribute("matchs", service.listerMatchs());
+            String recherche = req.getParameter("q");
+            recherche = recherche == null ? "" : recherche.trim();
+            List<Match> matchs = service.listerMatchs();
+            if (!recherche.isEmpty()) {
+                List<Match> resultats = new ArrayList<>();
+                for (Match match : matchs) {
+                    if (contient(match.getEquipeDomicile(), recherche) || contient(match.getEquipeExterieure(), recherche)) {
+                        resultats.add(match);
+                    }
+                }
+                matchs = resultats;
+            }
+            req.setAttribute("recherche", recherche);
+            req.setAttribute("matchs", matchs);
             req.getRequestDispatcher("/WEB-INF/views/matchs.jsp").forward(req, resp);
             return;
         }
@@ -30,6 +46,10 @@ public class MatchServlet extends HttpServlet {
             req.setAttribute("match", match.get());
             req.getRequestDispatcher("/WEB-INF/views/detailsMatch.jsp").forward(req, resp);
         } catch (NumberFormatException e) { resp.sendError(400, "Identifiant de match invalide"); }
+    }
+
+    private boolean contient(String equipe, String recherche) {
+        return equipe != null && equipe.toLowerCase(Locale.ROOT).contains(recherche.toLowerCase(Locale.ROOT));
     }
 
     private void afficherPhoto(HttpServletRequest req, HttpServletResponse resp) throws IOException {

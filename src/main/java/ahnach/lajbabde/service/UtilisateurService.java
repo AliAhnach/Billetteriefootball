@@ -18,6 +18,32 @@ public class UtilisateurService {
         return utilisateurDao.findByEmail(normaliserEmail(email));
     }
 
+    public Optional<Utilisateur> trouverParId(long id) { return utilisateurDao.findById(id); }
+
+    public Utilisateur modifierProfil(long id, String nom, String email, String nouveauMotDePasse, String photoFichier) {
+        Utilisateur utilisateur = utilisateurDao.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Compte utilisateur introuvable."));
+        if (!"CLIENT".equals(utilisateur.getRole())) throw new IllegalArgumentException("Seul un client peut modifier ce profil.");
+        if (nom == null || nom.trim().isEmpty()) throw new IllegalArgumentException("Le nom est obligatoire.");
+        if (nom.trim().length() > 100) throw new IllegalArgumentException("Le nom ne peut pas dépasser 100 caractères.");
+        String adresse = normaliserEmail(email);
+        if (!adresse.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) throw new IllegalArgumentException("Saisissez une adresse e-mail valide.");
+        Optional<Utilisateur> autreCompte = utilisateurDao.findByEmail(adresse);
+        if (autreCompte.isPresent() && !autreCompte.get().getId().equals(id)) {
+            throw new IllegalArgumentException("Cette adresse e-mail est déjà utilisée.");
+        }
+        if (nouveauMotDePasse != null && !nouveauMotDePasse.isEmpty() && nouveauMotDePasse.length() < 8) {
+            throw new IllegalArgumentException("Le nouveau mot de passe doit contenir au moins 8 caractères.");
+        }
+        utilisateur.setNom(nom.trim());
+        utilisateur.setEmail(adresse);
+        if (nouveauMotDePasse != null && !nouveauMotDePasse.isEmpty()) {
+            utilisateur.setMotDePasseHash(BCrypt.hashpw(nouveauMotDePasse, BCrypt.gensalt(12)));
+        }
+        if (photoFichier != null) utilisateur.setPhotoProfilFichier(photoFichier);
+        return utilisateurDao.save(utilisateur);
+    }
+
     public Utilisateur inscrireClient(String nom, String email, String motDePasse) {
         if (nom == null || nom.trim().isEmpty()) throw new IllegalArgumentException("Le nom est obligatoire.");
         if (motDePasse == null || motDePasse.length() < 8) throw new IllegalArgumentException("Le mot de passe doit contenir au moins 8 caractères.");

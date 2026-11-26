@@ -1,0 +1,8 @@
+<footer class="site-footer">
+  <div class="container py-3 text-center">
+    <div class="footer-signature">
+      <img src="${pageContext.request.contextPath}/images/logos/logo-FootTicket.png" alt="Logo FootTicket">
+      <small>&copy; FootTicket. Tous droits r&eacute;serv&eacute;s.</small>
+    </div>
+  </div>
+</footer>
